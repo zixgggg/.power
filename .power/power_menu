@@ -1,0 +1,48 @@
+#!/bin/bash
+#rofi -modi "power_menu:~/.pm" -show power_menu
+LOCK="lock"
+REBOOT="reboot"
+POWEROFF="poweroff"
+LOGOUT="logout"
+SUSPEND="suspend"
+HIBERNATE="Hibernate"
+HYBIRD_SLEEP="hybrid-sleep"
+if [[ -z "$@" ]]; then
+	echo LOCK
+	echo REBOOT
+	echo POWEROFF
+	echo LOGOUT
+	echo SUSPEND
+	echo HIBERNATE
+	echo HYBIRD-SLEEP
+else
+
+	if [[ $@ == LOCK ]] then
+		xset s activate
+	fi
+	
+	if [[ $@ == REBOOT ]] then
+		systemctl reboot
+	fi
+
+	if [[ $@ == POWEROFF ]] then
+		systemctl poweroff
+	fi
+
+	if [[ $@ == LOGOUT ]] then
+		i3-msg exit
+	fi
+
+	if [[ $@ == SUSPEND ]] then
+		systemctl suspend
+	fi
+
+	if [[ $@ == HIBERNATE ]] then
+		systemctl hibernate
+	fi
+	
+	if [[ $@ == HYBIRD_SLEEP ]] then
+		systemctl hybrid-sleep
+	fi
+
+fi
