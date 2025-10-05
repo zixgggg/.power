@@ -1,0 +1,70 @@
+#!/bin/bash
+#rofi -modi "power_menu:~/.power/power_menu" -show power_menu
+# --- 變數定義 (可選，但保持一致性) ---
+LOCK="lock"
+REBOOT="reboot"
+POWEROFF="poweroff"
+LOGOUT="logout"
+SUSPEND="suspend"
+HIBERNATE="hibernate"
+HYBRID_SLEEP="hybrid-sleep" # 變數名稱修正為 HYBRID_SLEEP
+
+# --- 1. 輸出選單選項給 Rofi ---
+# 當沒有參數傳入時，輸出選單項
+if [[ -z "$@" ]]; then
+    echo "$LOCK"
+    echo "$REBOOT"
+    echo "$POWEROFF"
+    echo "$LOGOUT"
+    echo "$SUSPEND"
+    echo "$HIBERNATE"
+    echo "$HYBRID_SLEEP" # 確保這裡的輸出與變數名一致
+    exit 0
+fi
+
+# --- 2. 執行選定的動作 ---
+# 這裡使用 'case' 語句替代多個 'if' 語句，更簡潔且高效
+case "$@" in
+    "$LOCK")
+        # 鎖屏指令，xset s activate 適用於 Xorg
+        xset s activate
+        ;;
+
+    "$REBOOT")
+        # 重啟
+        systemctl reboot
+        ;;
+
+    "$POWEROFF")
+        # 關機
+        systemctl poweroff
+        ;;
+
+    "$LOGOUT")
+        # 登出 i3
+        i3-msg exit
+        ;;
+
+    "$SUSPEND")
+        # 暫停（休眠到記憶體）
+        systemctl suspend
+        ;;
+
+    "$HIBERNATE")
+        # 休眠（休眠到硬碟）
+        systemctl hibernate
+        ;;
+
+    "$HYBRID_SLEEP")
+        # 混合睡眠（記憶體+硬碟）
+        systemctl hybrid-sleep
+        ;;
+
+    *)
+        # 處理未知的輸入
+        echo "無效選項: $@"
+        exit 1
+        ;;
+esac
+
+exit 0
