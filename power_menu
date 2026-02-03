@@ -27,7 +27,10 @@ fi
 case "$@" in
     "$LOCK")
         # 鎖屏指令，xset s activate 適用於 Xorg
+        #xssstate -t可以看剩餘幾毫秒鎖屏
+        
         xset s activate
+        
         ;;
 
     "$REBOOT")
@@ -43,6 +46,8 @@ case "$@" in
     "$LOGOUT")
         # 登出 i3
         i3-msg exit
+        #loginctl terminate-user $USER
+        jwm -exit
         ;;
 
     "$SUSPEND")
